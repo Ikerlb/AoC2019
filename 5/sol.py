@@ -18,12 +18,16 @@ def exec(ic,inpt):
 	ip=0
 	(oc,m1,m2,m3)=parse(ic[ip])
 	while oc!=99:
+		#ic 3 means save input on next's oc address
 		if oc==3:
 			ic[ic[ip+1]]=inpt
+		#return either value or address value
 		elif oc==4:
 			yield(param(ic,ip+1,m1))
+		#unary operations 
 		elif oc in [5,6]:
 			ip=param(ic,ip+2,m2) if unop[oc](param(ic,ip+1,m1)) else ip+3
+		#binary operations
 		else:
 			ic[ic[ip+3]]=binop[oc](param(ic,ip+1,m1),param(ic,ip+2,m2))
 		ip+=oplen[oc]		
